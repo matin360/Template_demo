@@ -267,32 +267,37 @@
                   <div class="consult_form-left">
                     <label for="email">
                       E-mail
-                      <input type="email" name="email" id="email">
+                      <input type="email" name="email" id="email" required>
+                      <span id="email-lbl"></span>
                     </label>
                     <label for="phonenumber">
                       Контактный телефон
-                      <input type="tel" name="phone" id="phone">
+                      <input type="tel" name="phone" id="phone" required>
+                      <span id="phone-lbl"></span>
                     </label>
                     <label for="name">
                       ФИО
-                      <input type="text" name="name" id="name">
+                      <input type="text" name="name" id="name" required>
+                      <span id="name-lbl"></span>
                     </label>
                     <label for="select">
                       Тема вопроса
-                      <select name="select" id="select">
+                      <select name="select" id="select" required>
                         <option>_______</option>
                         <option>_______</option>
                         <option>_______</option>
                         <option>_______</option>
                       </select>
+                      <span id="select-lbl"></span>
                     </label>
                   </div>
                   <div class="consult_form-right">
                     <label for="message">
                       Сообщение
-                      <textarea cols="30" rows="10" name="message" id="message"></textarea>
+                      <textarea cols="30" rows="10" name="message" id="message" required></textarea>
                     </label>
-                    <a href="#" class="consult_btn default_btn btn_download" data-toggle="modal" data-target="#validModal">Получить консультацю</a>
+                    <span id="message-lbl"></span>
+                    <button id="submit-form" href="#" class="consult_btn default_btn btn_download" data-toggle="modal" data-target="#validModal">Получить консультацю</button>
                   </div>
                 </div>
               </form>
@@ -552,5 +557,6 @@
     <script src="./js/jquery.fancybox.min.js"></script>
     <script src="./js/slick.min.js"></script>
     <script src="./js/main.js"></script>
+    <script src="./js/form-validation.js"></script>
   </body>
 </html>
