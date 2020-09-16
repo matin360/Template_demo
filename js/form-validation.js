@@ -1,27 +1,35 @@
 
 document.addEventListener('DOMContentLoaded', () => {
-    let inputs = ['name', 'email', 'phone', 'message', 'select'];
+    let inputIds = ['name', 'email', 'phone', 'message', 'select'];
     getElmByid('submit-form').addEventListener('click', () => {
-        inputs.forEach( (inputId) => {
+        inputIds.forEach( (inputId) => {
             let input = getElmByid(inputId);
-            IsEmpty(input);
+            let span = getElmByid(inputId + '-lbl');
+            if(IsEmpty(input)){
+                displayError(span, inputId);
+            }
         });
     });
 
-    inputs.forEach( (input) => {
-        getElmByid(input).addEventListener('change', () => {
-            getElmByid(input.id + '-lbl').innerHTML = '';
+    inputIds.forEach( (inputId) => {
+        getElmByid(inputId).addEventListener('change', () => {
+            getElmByid(inputId + '-lbl').innerHTML = '';
         });
     })
 });
 
 function IsEmpty(input) {
-    let span = getElmByid(input.id + '-lbl');
+    let isEmptyElm = false;
     if (input.value === '') {
-        let msg = getMessage(input.id);
-        span.innerHTML = msg;
-        getStyleToElms(span, '#ff0000', '10px');
+        isEmptyElm = true;
     }
+    return isEmptyElm;
+}
+
+function displayError(errorElement, inputId) {
+    let msg = getMessage(inputId);
+    errorElement.innerHTML = msg;
+    getStyleToElms(errorElement, '#ff0000', '10px');
 }
 
 function getMessage(inputId) {
@@ -43,4 +51,8 @@ function getElmByid(id){
 function getStyleToElms(elm, color, fontSize) {
     elm.style.color = color;
     elm.style.fontSize = fontSize;
+}
+
+function IsPatternMathcing() {
+    
 }
