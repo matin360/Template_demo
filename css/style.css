@@ -408,6 +408,9 @@ body{
     justify-content: space-between;
     flex-wrap: wrap;
 }
+.input-outer{
+    height: 90px;
+}
 .consult_form_inner label,
 .consult_form_inner input,
 .consult_form_inner textarea,
@@ -420,6 +423,7 @@ body{
     line-height: 36px;
     font-family: 'Roboto', sans-serif;
     color: #282828;
+    margin-bottom: 0;
 }
 .consult_form_inner input,
 .consult_form_inner select,
