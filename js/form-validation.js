@@ -22,14 +22,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     getElmByid('email').addEventListener('change', (e) => {
         e.preventDefault();
-        if(!isPatternMathcing(getElmByid('email'), patterns[0])){
+        if(!isPatternMathcing(getElmByid('email'), patterns[1])){
             displayEmptyError(getElmByid('email-lbl'), 'Given email is not valid');
         }
     });
 
     getElmByid('phone').addEventListener('change', (e) => {
         e.preventDefault();
-        if(!isPatternMathcing(getElmByid('phone'), patterns[1])){
+        if(!isPatternMathcing(getElmByid('phone'), patterns[2])){
             displayEmptyError(getElmByid('phone-lbl'), 'Given phone number is not valid');
         }
     });
