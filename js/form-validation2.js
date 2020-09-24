@@ -14,8 +14,8 @@ class ValidatorForm{
             return this.#patterns[inputId];
         } else return '';
     }
-    _getFormInputs(form){
-        return form.getElementsByClassName('form-input');
+    _getFormInputs(){
+        return this.#form.getElementsByClassName('form-input');
     }
 
     _IsEmpty(input) {
@@ -67,7 +67,7 @@ class ValidatorForm{
     }
 
     validate(){
-        let inputs = this._getFormInputs(this.#form);
+        let inputs = this._getFormInputs();
         for(let input of inputs){
                let msg = this._getErrorMessage(input, this._definePattern(input.id));
                this._displayError(input, msg); 
@@ -82,4 +82,12 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         v.validate();
     });
+    
+    let inputs = v._getFormInputs();
+    for (let inp of inputs) {
+        inp.addEventListener('change', (e) => {
+            e.preventDefault();
+            v.validate();
+        });
+    }
 });
