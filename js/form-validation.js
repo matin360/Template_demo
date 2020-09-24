@@ -1,21 +1,46 @@
 
 document.addEventListener('DOMContentLoaded', () => {
-    let inputIds = ['name', 'email', 'phone', 'message', 'select'];
-    getElmByid('submit-form').addEventListener('click', () => {
+    let 
+        inputIds = ['name', 'email', 'phone', 'message', 'select'],
+        patterns = [/([a-zA-Z\s])/, /^([a-zA-Z0-9_.]+)@([a-zA-Z0-9_.]+)\.([a-zA-Z]{2,5})$/, /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/],
+        input = null,
+        errElement = null,
+        message = '';
+
+    getElmByid('submit-form').addEventListener('click', (e) => {
+        e.preventDefault();
         inputIds.forEach( (inputId) => {
-            let input = getElmByid(inputId);
-            let span = getElmByid(inputId + '-lbl');
+                input = getElmByid(inputId);
+                errElement = getElmByid(inputId + '-lbl');
+
             if(IsEmpty(input)){
-                displayError(span, inputId);
+                message = getMessage(inputId);
+                displayEmptyError(errElement, message);
             }
         });
     });
 
-    inputIds.forEach( (inputId) => {
-        getElmByid(inputId).addEventListener('change', () => {
-            getElmByid(inputId + '-lbl').innerHTML = '';
-        });
-    })
+    getElmByid('email').addEventListener('change', (e) => {
+        e.preventDefault();
+        if(!isPatternMathcing(getElmByid('email'), patterns[0])){
+            displayEmptyError(getElmByid('email-lbl'), 'Given email is not valid');
+        }
+    });
+
+    getElmByid('phone').addEventListener('change', (e) => {
+        e.preventDefault();
+        if(!isPatternMathcing(getElmByid('phone'), patterns[1])){
+            displayEmptyError(getElmByid('phone-lbl'), 'Given phone number is not valid');
+        }
+    });
+    // inputIds.forEach( (inputId) => {
+    //     getElmByid(inputId).addEventListener('change', (e) => {
+    //         e.preventDefault();
+    //         if(!IsEmpty(getElmByid(inputId))){
+    //             getElmByid(inputId + '-lbl').innerHTML = '';
+    //         }                      
+    //     });
+    // })
 });
 
 function IsEmpty(input) {
@@ -26,21 +51,14 @@ function IsEmpty(input) {
     return isEmptyElm;
 }
 
-function displayError(errorElement, inputId) {
-    let msg = getMessage(inputId);
+function displayEmptyError(errorElement, message) {
+    let msg = message;
     errorElement.innerHTML = msg;
-    getStyleToElms(errorElement, '#ff0000', '10px');
+    setStyleToElms(errorElement, '#ff0000', '10px');
 }
 
 function getMessage(inputId) {
-    let msg = '';
-    switch (inputId) {
-        case 'name': msg = 'Please, fill out name field'; break;
-        case 'email': msg = 'Please, fill out email field'; break;
-        case 'phone': msg = 'Please, fill out phone field'; break;
-        case 'message': msg = 'Please, fill out message field'; break;
-        case 'select': msg = 'Please, fill out select field'; break;
-    }
+    let msg = `Please, fill out ${inputId} field`;
     return msg;
 }
 
@@ -48,11 +66,12 @@ function getElmByid(id){
     return document.getElementById(id);
 }
 
-function getStyleToElms(elm, color, fontSize) {
+function setStyleToElms(elm, color, fontSize) {
     elm.style.color = color;
     elm.style.fontSize = fontSize;
 }
 
-function IsPatternMathcing() {
-    
+function isPatternMathcing(input, pattern) {
+    let isValid = pattern.test(input.value) ? true : false;
+    return isValid;
 }
