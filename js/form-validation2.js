@@ -41,7 +41,7 @@ class ValidatorForm{
     _getErrorMessage(input, pattern = '') {
         let msg = '';
         if (input != null) {
-            if(pattern === '') {
+            if(pattern === '' || input.value === '') {
                 if(this._IsEmpty(input)){
                     msg = `Please, fill out ${input.id} field`;
                 }
@@ -56,9 +56,9 @@ class ValidatorForm{
     }
   
 
-    _displayError(errorElement, message) {
-        errorElement.innerHTML = message;
-        this._setStyleToElms(errorElement, '#ff0000', '10px');
+    _displayError(input, message) {
+        document.getElementById(input.id+'-lbl').innerHTML = message;
+        this._setStyleToElms(document.getElementById(input.id+'-lbl'), '#ff0000', '10px');
     }
 
     _setStyleToElms(elm, color, fontSize) {
@@ -70,7 +70,7 @@ class ValidatorForm{
         let inputs = this._getFormInputs(this.#form);
         for(let input of inputs){
                let msg = this._getErrorMessage(input, this._definePattern(input.id));
-               this._displayError(document.getElementById(input.id+'-lbl'), msg); 
+               this._displayError(input, msg); 
         }
     }
 
