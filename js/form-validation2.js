@@ -10,12 +10,12 @@ class ValidatorForm{
     }
     _definePattern(inputId){
         let pattern = this.#patterns[inputId];
-        if (pattern =! null && pattern != '') {
-            return pattern;
+        if (pattern =! null || pattern != '') {
+            return this.#patterns[inputId];
         } else return '';
     }
     _getFormInputs(form){
-        return form.getElementsByTagName('input');
+        return form.getElementsByClassName('form-input');
     }
 
     _IsEmpty(input) {
@@ -38,15 +38,16 @@ class ValidatorForm{
         } 
     }
 
-    _getErrorMessage(input) {
+    _getErrorMessage(input, pattern = '') {
         let msg = '';
         if (input != null) {
-            if (pattern === '') {
+            if(pattern === '') {
                 if(this._IsEmpty(input)){
                     msg = `Please, fill out ${input.id} field`;
                 }
-            } else {
-                if(this._isPatternMathcing(input, this._definePattern(input.id))){
+            }
+            else {
+                if(!this._isPatternMathcing(input, RegExp(pattern))){
                     msg = `Please, fullfil ${input.id} field correctly. Input is wrong!`;
                 }
             }
@@ -57,7 +58,7 @@ class ValidatorForm{
 
     _displayError(errorElement, message) {
         errorElement.innerHTML = message;
-        _setStyleToElms(errorElement, '#ff0000', '10px');
+        this._setStyleToElms(errorElement, '#ff0000', '10px');
     }
 
     _setStyleToElms(elm, color, fontSize) {
@@ -68,11 +69,8 @@ class ValidatorForm{
     validate(){
         let inputs = this._getFormInputs(this.#form);
         for(let input of inputs){
-            input.addEventListener('change', (e) => {
-                e.preventDefault();
-               let msg = this._getErrorMessage(input);
-               this._displayError(document.getElementById(input.id+'-lbl'), msg);
-            }); 
+               let msg = this._getErrorMessage(input, this._definePattern(input.id));
+               this._displayError(document.getElementById(input.id+'-lbl'), msg); 
         }
     }
 
@@ -80,5 +78,8 @@ class ValidatorForm{
 
 document.addEventListener('DOMContentLoaded', () => {
     ValidatorForm; v =  new ValidatorForm('form-consult');
-    v.validate();
+    document.getElementById('submit-form').addEventListener('click', (e) => {
+        e.preventDefault();
+        v.validate();
+    });
 });
