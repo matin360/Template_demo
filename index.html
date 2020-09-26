@@ -262,9 +262,9 @@
               </div>
             </div>
             <div name="consult_form" class="consult_form">
-              <form id="form-consult">
+              <form id="form-consult" method="POST" action="">
                 <div class="consult_form_inner">
-                  <div class="consult_form-left">
+                  <section class="consult_form-left">
                     <section class="input-outer">
                       <label for="email">E-mail</label>
                       <input type="email" name="email" id="email" class="form-input" required>
@@ -290,15 +290,15 @@
                         </select>
                         <span id="select-lbl"></span>
                     </section>
-                  </div>
-                  <div class="consult_form-right">
-                    <label for="message">
-                      Сообщение
+                  </section>
+                  <section class="consult_form-right">
+                    <div class="input-outer">
+                      <label for="message"> Сообщение</label>
                       <textarea cols="30" rows="10" name="message" id="message" class="form-input" required></textarea>
-                    </label>
-                    <span id="message-lbl"></span>
+                      <span id="message-lbl"></span>
+                    </div>
                     <button id="submit-form" href="#" class="consult_btn default_btn btn_download" data-toggle="modal" data-target="#validModal">Получить консультацю</button>
-                  </div>
+                  </section>
                 </div>
               </form>
             </div>
@@ -548,7 +548,7 @@
     <div id="modal">
       <form>
         <input type="text" placeholder="Your Name">
-        <input type="text" placeholder="Your Phone Number">
+        <input type="number" placeholder="Your Phone Number">
         <input type="submit">
       </form>
     </div>
