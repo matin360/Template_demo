@@ -1,18 +1,22 @@
 'use strict'
 
 document.addEventListener('DOMContentLoaded', () => {
-    applyMask('input[type="tel"]', '0(99)-999-99-99');
+    applyMask('input[type="tel"]', '+(994)99-999-9999');
     const validator =  new ValidatorForm('form-consult');
     document.getElementById('submit-form').addEventListener('click', (e) => {
         e.preventDefault();
-        validator.validate();
+        if (validator.IsValid()) {
+            let data = new FormData(validator.getForm);
+            data = Object.fromEntries(data);
+            ajaxSend(data);
+        }
     });
     
-    let inputs = v._getFormInputs();
+    const inputs = validator._getFormInputs();
     for (let inp of inputs) {
         inp.addEventListener('change', (e) => {
             e.preventDefault();
-            validator.validate();
+            validator.IsValid();
         });
     }
 });
@@ -32,6 +36,9 @@ class ValidatorForm{
     #patterns = {
         'email': /^([a-zA-Z0-9_.]+)@([a-zA-Z0-9_.]+)\.([a-zA-Z]{2,5})$/,
         'tel': /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/
+    }
+    get getForm(){
+        return this.#form;
     }
     _definePattern(inputId){
         let pattern = this.#patterns[inputId];
@@ -91,12 +98,31 @@ class ValidatorForm{
         elm.style.fontSize = fontSize;
     }
 
-    validate(){
-        let inputs = this._getFormInputs();
+    IsValid(){
+        let isValid = false;
+        const inputs = this._getFormInputs();
         for(let input of inputs){
-               let msg = this._getErrorMessage(input, this._definePattern(input.type));
-               this._displayError(input, msg);
+            let msg = this._getErrorMessage(input, this._definePattern(input.type));
+            if (msg === '') {
+                isValid = true;
+                this._displayError(input, msg);
+            } else {
+                this._displayError(input, msg);
+            }
+                
         }
     }
 
 }
+
+const ajaxSend = (formData) => {
+   fetch('data/data.json', { // файл-обработчик 
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json', // отправляемые данные 
+        },
+        body: JSON.stringify(formData)
+    })
+        .then(response => alert('Сообщение отправлено'))
+        .catch(error => console.error(error))
+};
