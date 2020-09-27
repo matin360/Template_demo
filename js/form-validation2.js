@@ -1,3 +1,28 @@
+'use strict'
+
+document.addEventListener('DOMContentLoaded', () => {
+    applyMask('input[type="tel"]', '0(99)-999-99-99');
+    const validator =  new ValidatorForm('form-consult');
+    document.getElementById('submit-form').addEventListener('click', (e) => {
+        e.preventDefault();
+        validator.validate();
+    });
+    
+    let inputs = v._getFormInputs();
+    for (let inp of inputs) {
+        inp.addEventListener('change', (e) => {
+            e.preventDefault();
+            validator.validate();
+        });
+    }
+});
+
+function applyMask(selector, mask) {
+    const inp = document.querySelector(selector);
+    const inpMask = new Inputmask(mask);
+    inpMask.mask(inp);
+}
+
 class ValidatorForm{
     #form;
     constructor(formId){
@@ -6,7 +31,7 @@ class ValidatorForm{
     // form element
     #patterns = {
         'email': /^([a-zA-Z0-9_.]+)@([a-zA-Z0-9_.]+)\.([a-zA-Z]{2,5})$/,
-        'phone': /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/
+        'tel': /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/
     }
     _definePattern(inputId){
         let pattern = this.#patterns[inputId];
@@ -69,25 +94,9 @@ class ValidatorForm{
     validate(){
         let inputs = this._getFormInputs();
         for(let input of inputs){
-               let msg = this._getErrorMessage(input, this._definePattern(input.id));
-               this._displayError(input, msg); 
+               let msg = this._getErrorMessage(input, this._definePattern(input.type));
+               this._displayError(input, msg);
         }
     }
 
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    ValidatorForm; v =  new ValidatorForm('form-consult');
-    document.getElementById('submit-form').addEventListener('click', (e) => {
-        e.preventDefault();
-        v.validate();
-    });
-    
-    let inputs = v._getFormInputs();
-    for (let inp of inputs) {
-        inp.addEventListener('change', (e) => {
-            e.preventDefault();
-            v.validate();
-        });
-    }
-});
